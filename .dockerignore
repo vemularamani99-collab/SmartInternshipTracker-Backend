@@ -1,0 +1,25 @@
+# Git metadata & docs
+.git
+.gitignore
+README.md
+
+# Maven build artifacts
+target/
+
+# IDE configurations
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# Local environment variables & secrets
+.env
+.env.*
+application-local.properties
+
+# Log & temporary files
+*.log
+*.tmp
+*.bak

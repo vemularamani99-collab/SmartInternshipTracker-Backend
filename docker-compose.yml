@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # ── Smart Internship Tracker Spring Boot API ──
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: internship-tracker-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - SPRING_PROFILES_ACTIVE=mysql
+      - DB_URL=jdbc:mysql://mysql-db:3306/internship_tracker?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - DB_USERNAME=root
+      - DB_PASSWORD=${DB_PASSWORD:-rootpassword}
+      - JWT_SECRET=${JWT_SECRET:-SmartInternshipTrackerSecretKey2026SuperSecureAndLongEnoughForHMAC256}
+      - JWT_EXPIRATION_MS=${JWT_EXPIRATION_MS:-86400000}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@example.com}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-Admin@Secure2026}
+      - ADMIN_NAME=Placement Administrator
+      - CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+
+  # ── MySQL Database Container ──
+  mysql-db:
+    image: mysql:8.0
+    container_name: internship-tracker-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-rootpassword}
+      - MYSQL_DATABASE=internship_tracker
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD:-rootpassword}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  mysql_data:
+    driver: local
