@@ -1,0 +1,35 @@
+
+# ==========================================
+# Smart Internship Tracker - Backend
+# ==========================================
+
+# Maven build output
+target/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local configuration files
+application-local.properties
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
